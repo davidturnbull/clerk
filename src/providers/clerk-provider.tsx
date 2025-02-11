@@ -11,10 +11,11 @@ interface ClerkProviderProps {
 export function ClerkProvider({ children }: ClerkProviderProps) {
   const { resolvedTheme } = useTheme();
 
-  const appearance = resolvedTheme === "dark" ? { baseTheme: dark } : undefined;
+  const isDarkMode = resolvedTheme === "dark";
+  const baseTheme = isDarkMode ? dark : undefined;
 
   return (
-    <DefaultClerkProvider appearance={appearance}>
+    <DefaultClerkProvider appearance={{ baseTheme }}>
       {children}
     </DefaultClerkProvider>
   );
