@@ -1,6 +1,10 @@
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { ClerkProvider } from "@/providers/clerk-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import {
+  ClerkLoaded,
+  ClerkLoading,
+  OrganizationSwitcher,
   SignInButton,
   SignUpButton,
   SignedIn,
@@ -38,16 +42,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ClerkProvider>
-            <header className="flex justify-end items-center p-4 gap-4 h-16">
+            <header className="flex justify-end items-center p-4 gap-4 h-16 border-b">
+              <ThemeSwitcher />
               <SignedOut>
-                <SignInButton />
-                <SignUpButton />
+                <SignInButton mode="modal" />
+                <SignUpButton mode="modal" />
               </SignedOut>
               <SignedIn>
+                <OrganizationSwitcher />
                 <UserButton />
               </SignedIn>
             </header>
-            {children}
+            <main className="p-8">
+              <ClerkLoading>
+                <p>Loading...</p>
+              </ClerkLoading>
+              <ClerkLoaded>{children}</ClerkLoaded>
+            </main>
           </ClerkProvider>
         </ThemeProvider>
       </body>
