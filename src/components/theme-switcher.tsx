@@ -1,19 +1,22 @@
 "use client";
 
+import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { SunIcon, MoonIcon } from "lucide-react";
 
 export function ThemeSwitcher() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, systemTheme } = useTheme();
 
-  function handleClick() {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
+  const currentTheme = theme === "system" ? systemTheme : theme;
+  const isLightTheme = currentTheme === "light";
+  const Icon = isLightTheme ? SunIcon : MoonIcon;
+
+  function toggleTheme() {
+    setTheme(isLightTheme ? "dark" : "light");
   }
 
   return (
-    <button onClick={handleClick}>
-      {theme === "light" ? <SunIcon /> : <MoonIcon />}
+    <button onClick={toggleTheme}>
+      <Icon className="h-5 w-5" />
     </button>
   );
 }
